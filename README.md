@@ -41,6 +41,7 @@ To run the superhero CRUD application locally, follow these steps:
 - Access the application in your web browser at `http://localhost:3000`
 
 ## Assumptions
+- Server Hosting: The server-side of the application is hosted on Render.com. This assumes that the server is deployed and accessible via a Render.com-hosted URL.
 - The PostgreSQL database is set up and configured properly.
 - Images Storage: Images associated with superheroes are stored using ImageKit.io's Media Library, and in the database, only the URLs pointing to these images are stored. This assumes that ImageKit.io is set up and configured to serve and manage the images used in the application.
 - Pagination is implemented with a default of 4 items per page, but this value can be adjusted in the code if needed.
