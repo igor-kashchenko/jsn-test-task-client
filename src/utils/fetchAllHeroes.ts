@@ -17,6 +17,7 @@ export const fetchAllHeroes = async (page: number, pageSize: number): Promise<Su
         pageSize,
       }
     })
+    
     return response.data;
   } catch (error) {
     console.log(error);

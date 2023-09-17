@@ -1,10 +1,11 @@
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import navlogo from "@/assets/navlogo.png";
+
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
-import { Link, useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
-import navlogo from "@/assets/navlogo.png";
 
 export const Navbar: React.FC = () => {
   const navigate = useNavigate();

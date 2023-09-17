@@ -1,18 +1,16 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
-
-import { AppContainer } from './AppContainer';
-import { Navbar } from './Navbar';
+import React from "react";
+import { Outlet } from "react-router-dom";
+import { AppContainer } from "./AppContainer";
+import { Navbar } from "./Navbar";
 
 export const NavbarLayout: React.FC = () => {
   return (
     <>
-     <Navbar />
+      <Navbar />
 
       <AppContainer>
         <Outlet />
       </AppContainer>
     </>
-      
-  )
-}
+  );
+};

@@ -1,14 +1,16 @@
 import React, { ChangeEvent, useState } from "react";
 import { SuperHero } from "@/types/SuperHero";
+import { deleteHero } from "@/utils/deleteHero";
+import { useNavigate } from "react-router-dom";
+
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import Button from "@mui/material/Button";
-import { deleteHero } from "@/utils/deleteHero";
-import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import { MuiChipsInput } from "mui-chips-input";
+import CircularProgress from "@mui/material/CircularProgress";
 
 type Props = {
   superhero: SuperHero;
@@ -30,15 +32,25 @@ export const HeroProfile: React.FC<Props> = ({
     superpowers: superhero.superpowers || [],
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const [chipError, setChipError] = useState(false);
 
   const navigate = useNavigate();
 
   const handleDeleteHero = async () => {
-    if (superhero.id) {
-      await deleteHero(superhero.id);
+    setIsLoading(true);
 
-      navigate("/");
+    try {
+      if (superhero.id) {
+        await deleteHero(superhero.id);
+
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -122,7 +134,7 @@ export const HeroProfile: React.FC<Props> = ({
           </Typography>
         )}
 
-        <Box>
+        <Box display={"flex"} alignItems={"center"}>
           <Button
             variant="contained"
             color="primary"
@@ -132,14 +144,18 @@ export const HeroProfile: React.FC<Props> = ({
             Edit Hero
           </Button>
 
-          <Button
-            variant="contained"
-            color="error"
-            sx={{ height: "25%" }}
-            onClick={handleDeleteHero}
-          >
-            Delete Hero
-          </Button>
+          {isLoading ? (
+            <CircularProgress size={24} />
+          ) : (
+            <Button
+              variant="contained"
+              color="error"
+              sx={{ height: "25%" }}
+              onClick={handleDeleteHero}
+            >
+              Delete hero
+            </Button>
+          )}
         </Box>
       </Box>
 

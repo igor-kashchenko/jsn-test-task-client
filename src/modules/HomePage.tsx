@@ -2,6 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { fetchAllHeroes } from "@/utils/fetchAllHeroes";
 import { SuperHero } from "@/types/SuperHero";
 import { ListOfHeroes } from "@/components/ListOfHeroes";
+
 import Typography from "@mui/material/Typography";
 import Pagination from "@mui/material/Pagination";
 

@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { NavigateHomeBtn } from '@/components/NavigateHomeBtn';
-import { fetchHero } from '@/utils/fetchHero';
-import { HeroProfile } from '@/components/HeroProfile';
-import { SuperHero } from '@/types/SuperHero';
-import { editHero } from '@/utils/editHero';
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { NavigateHomeBtn } from "@/components/NavigateHomeBtn";
+import { fetchHero } from "@/utils/fetchHero";
+import { HeroProfile } from "@/components/HeroProfile";
+import { SuperHero } from "@/types/SuperHero";
+import { editHero } from "@/utils/editHero";
 
 export const AboutPage: React.FC = () => {
   const { id } = useParams();
-  const [superhero, setSuperhero] = useState<SuperHero | null>(null)
-  const [parsedImages, setParsedImages] = useState<{ url: string; fileId: string }[]>([]);
+  const [superhero, setSuperhero] = useState<SuperHero | null>(null);
+  const [parsedImages, setParsedImages] = useState<
+    { url: string; fileId: string }[]
+  >([]);
 
   useEffect(() => {
     if (
@@ -17,7 +19,6 @@ export const AboutPage: React.FC = () => {
       superhero.images[0] &&
       superhero.images[0].image_URLS
     ) {
-
       const parsedImagesData = superhero.images[0].image_URLS.map((imageData) =>
         JSON.parse(imageData)
       );
@@ -35,9 +36,9 @@ export const AboutPage: React.FC = () => {
           setSuperhero(response);
         }
       } catch (error) {
-      console.log(error);
-    }
-    }
+        console.log(error);
+      }
+    };
 
     getSuperhero();
   }, [id]);
@@ -67,7 +68,13 @@ export const AboutPage: React.FC = () => {
     <>
       <NavigateHomeBtn />
 
-      {superhero && <HeroProfile superhero={superhero} parsedImages={parsedImages} onEditHero={editHeroOptimistically} />}
+      {superhero && (
+        <HeroProfile
+          superhero={superhero}
+          parsedImages={parsedImages}
+          onEditHero={editHeroOptimistically}
+        />
+      )}
     </>
-  )
-}
+  );
+};

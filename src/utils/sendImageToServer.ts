@@ -13,8 +13,6 @@ export const sendImageToServer = async (files: File[]) => {
   try {
     const response = await axios.post(base_url + API_Endpoints.UPLOADIMAGES, formData)
 
-    console.log(response.data);
-
     return response.data;
   } catch (error) {
     console.log(error);

@@ -1,20 +1,24 @@
-import React from "react";
-import Paper from "@mui/material/Paper";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { MuiChipsInput } from "mui-chips-input";
-import { MuiFileInput } from "mui-file-input";
 import { schema } from "@/schema";
 import { InputData } from "@/types/InputData";
 import { sendImageToServer } from "@/utils/sendImageToServer";
 import { addHero } from "@/utils/addHero";
 import { addImages } from "@/utils/addImages";
-import { useNavigate } from "react-router-dom";
+
+import Paper from "@mui/material/Paper";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import { MuiChipsInput } from "mui-chips-input";
+import { MuiFileInput } from "mui-file-input";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export const AddHeroForm: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const {
     control,
     reset,
@@ -29,20 +33,28 @@ export const AddHeroForm: React.FC = () => {
   const isFormValid = Object.keys(errors).length !== 0;
 
   const onSubmit = async (data: InputData) => {
-    const superhero = { ...data };
-    delete superhero.images;
+    setIsLoading(true);
 
-    const response = await addHero(superhero);
-    const userId = response.id;
+    try {
+      const superhero = { ...data };
+      delete superhero.images;
 
-    if (data.images && data.images?.length > 0) {
-      const image_URLS = await sendImageToServer(data.images);
-  
-      await addImages(image_URLS, userId as number);
+      const response = await addHero(superhero);
+      const userId = response.id;
+
+      if (data.images && data.images?.length > 0) {
+        const image_URLS = await sendImageToServer(data.images);
+
+        await addImages(image_URLS, userId as number);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
     }
 
     reset();
-    navigate('/');
+    navigate("/");
   };
 
   return (
@@ -160,14 +172,18 @@ export const AddHeroForm: React.FC = () => {
           )}
         />
 
-        <Button
-          type="submit"
-          variant="outlined"
-          sx={{ width: "25%" }}
-          disabled={isFormValid}
-        >
-          Add superhero
-        </Button>
+        {isLoading ? (
+          <CircularProgress size={24} />
+        ) : (
+          <Button
+            type="submit"
+            variant="outlined"
+            sx={{ width: "25%", position: "relative" }}
+            disabled={isFormValid || isLoading}
+          >
+            Add superhero
+          </Button>
+        )}
       </Paper>
     </>
   );
